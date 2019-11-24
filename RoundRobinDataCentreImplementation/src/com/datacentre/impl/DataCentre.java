@@ -1,0 +1,11 @@
+package com.datacentre.impl;
+
+public class DataCentre {
+	
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}
