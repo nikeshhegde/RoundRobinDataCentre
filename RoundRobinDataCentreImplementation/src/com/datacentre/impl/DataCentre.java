@@ -8,9 +8,10 @@ public class DataCentre {
 		boolean flag = true;
 		if(flag) {
 		System.out.println("Hello World");
-		System.out.println("Hello World");
 		
+		
+		}
+
 		}
 	}
 
-}
