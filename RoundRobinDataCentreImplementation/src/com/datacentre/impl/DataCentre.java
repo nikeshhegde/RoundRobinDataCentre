@@ -7,11 +7,8 @@ public class DataCentre {
 		// TODO Auto-generated method stub
 		boolean flag = true;
 		if(flag) {
-		System.out.println("Hello World");
-		
-		
-		}
-
+		System.out.println("Hello World");		
 		}
 	}
+}
 
