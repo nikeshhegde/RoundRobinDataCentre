@@ -8,7 +8,7 @@ public abstract class WaitingHostList implements Iterable<Host> {
 	/**
 	 * Hosts in waiting list
 	 * 
-	 *  author Prajwal
+	 *  author Prajwal Gopal
 	 */
 }
 	
