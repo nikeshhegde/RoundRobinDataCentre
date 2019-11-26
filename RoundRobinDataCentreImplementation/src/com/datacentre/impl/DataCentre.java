@@ -10,6 +10,5 @@ public class DataCentre {
 
 		System.out.println("Hello World");
 		}
-	
 }
 
