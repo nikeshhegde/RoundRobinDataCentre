@@ -1,11 +1,18 @@
 package com.datacentre.impl;
 
-public class WaitingHostList {
+import java.util.Iterator;
+
+import org.cloudbus.cloudsim.Host;
+
+public abstract class WaitingHostList implements Iterable<Host> {
 	/**
 	 * Hosts in waiting list
 	 * 
 	 *  author Prajwal
 	 */
+}
+	
+	
 	
 
-}
+
