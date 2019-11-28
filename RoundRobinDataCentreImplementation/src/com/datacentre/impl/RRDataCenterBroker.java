@@ -36,7 +36,7 @@ public class RRDataCenterBroker extends DatacenterBroker
 
         if (getDatacenterCharacteristicsList().size() == getDatacenterIdsList().size()) 
         {
-            distributeRequestsForNewVmsAcrossDatacentersUsingTheRoundRobinApproach();
+        	distributeReqForNewVmsAcrossDatacentersUsingRR();
         }
     }
 
@@ -44,27 +44,29 @@ public class RRDataCenterBroker extends DatacenterBroker
      * Distributes the VMs across the data centers using the round-robin approach. A VM is allocated to a data center only if there isn't  
      * a VM in the data center with the same id.     
      */
-    protected void distributeRequestsForNewVmsAcrossDatacentersUsingTheRoundRobinApproach() 
-    {
-        int numberOfVmsAllocated = 0;
-        int i = 0;
-        
-        final List<Integer> availableDatacenters = getDatacenterIdsList();
-        
-        for (Vm vm : getVmList()) 
-        {
-            int datacenterId = availableDatacenters.get(i++ % availableDatacenters.size());
-            String datacenterName = CloudSim.getEntityName(datacenterId);
-            
-            if (!getVmsToDatacentersMap().containsKey(vm.getId())) 
-            {
-                Log.printLine(CloudSim.clock() + ": " + getName() + ": Trying to Create VM #" + vm.getId() + " in " + datacenterName);
-                sendNow(datacenterId, CloudSimTags.VM_CREATE_ACK, vm);
-                numberOfVmsAllocated++;
-            }
-        }
-        
-        setVmsRequested(numberOfVmsAllocated);
-        setVmsAcks(0);
-    }
+    protected void distributeReqForNewVmsAcrossDatacentersUsingRR()
+	{
+		// TODO Auto-generated method stub
+		int numOfVmsAllocated = 0;
+		int i= 0;
+		
+		final List<Integer> availableDatacenters= getDatacenterIdsList();
+		
+		for (Vm vm : getVmList())
+		{
+			int datacenterID = availableDatacenters.get(i++ % availableDatacenters.size());
+			String datacenterName = CloudSim.getEntityName(datacenterID);
+			
+			if (!getVmsToDatacentersMap().containsKey(vm.getId()))
+			{
+				Log.printLine(CloudSim.clock() + ":" + getName() + ": Trying to Create VM #" + vm.getId() + "in" + datacenterName);
+				sendNow(datacenterID, CloudSimTags.VM_CREATE_ACK,vm);
+				numOfVmsAllocated++;
+			}
+		}
+		
+		setVmsRequested(numOfVmsAllocated);
+		setVmsAcks(0);
+	}
+
 }
