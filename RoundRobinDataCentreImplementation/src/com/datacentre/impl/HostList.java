@@ -18,7 +18,6 @@ import org.cloudbus.cloudsim.Host;
 
 public final class HostList implements Iterable<Host> {
 
-												
 	private final List<Host> host_list = new LinkedList<Host>();
 
 	private int ini;
@@ -29,11 +28,9 @@ public final class HostList implements Iterable<Host> {
 
 	public boolean add(Host host) {
 		return this.host_list.add(host);
-  
 	}
 
 	public boolean remove(Host host2Remove) {
-  
 		return this.host_list.remove(host2Remove);
 	}
 
@@ -43,18 +40,14 @@ public final class HostList implements Iterable<Host> {
 		if (!host_list.isEmpty()) {
 			int index = (this.ini++ % this.host_list.size());
 			host = this.host_list.get(index);
-   
 		}
 
 		return host;
-  
-  
 	}
 
 	@Override
 	public Iterator<Host> iterator() {
 		return get().iterator();
-  
 	}
 
 	public List<Host> get() {
@@ -76,7 +69,6 @@ public final class HostList implements Iterable<Host> {
 		return this.host_list.size();
 	}
 
-
 	public HostList orderedAscByAvailablePes() {
 		List<Host> list = new ArrayList<Host>(this.host_list);
 
@@ -90,13 +82,3 @@ public final class HostList implements Iterable<Host> {
 		return new HostList(list);
 	}
 }
- 
-
-  
- 
-
- 
- 
- 
-
-

@@ -9,57 +9,58 @@ import java.util.List;
 
 import org.cloudbus.cloudsim.Host;
 
+
 public final class Hosts implements Iterable<Host> {
 
-  private final List<Host> hList = new LinkedList<Host>();
+	  private final List<Host> host_list = new LinkedList<Host>();
 
-	public Hosts(List<? extends Host> hosts) {
-		this.hList.addAll(hosts);
-	}
-	
-	public boolean add(Host host){
-		return this.hList.add(host);
-	}
-	
-	public boolean remove(Host host2Remove){
-		return this.hList.remove(host2Remove);
-	}
-	
-
-	@Override
-	public Iterator<Host> iterator() {
-		return get().iterator();
-	}
-
-	public List<Host> get() {
-		return Collections.unmodifiableList(this.hList);
-	}
-
-	public Host getWithMinimumNumberOfPesEquals(int noOfPes) {
-		List<Host> hosts = this.orderedAscByAvailablePes().get();
-
-		for (int i = 0; i < hosts.size(); i++) {
-			if (hosts.get(i).getNumberOfFreePes() >= noOfPes) {
-				return hosts.get(i);
-			}
+		public Hosts(List<? extends Host> hosts) {
+			this.host_list.addAll(hosts);
 		}
-		return null;
-	}
+		
+		public boolean add(Host host){
+			return this.host_list.add(host);
+		}
+		
+		public boolean remove(Host host2Remove){
+			return this.host_list.remove(host2Remove);
+		}
+		
 
-	public int size() {
-		return this.hList.size();
-	}
+		@Override
+		public Iterator<Host> iterator() {
+			return get().iterator();
+		}
 
-	public Hosts orderedAscByAvailablePes() {
-		List<Host> list = new ArrayList<Host>(this.hList);
+		public List<Host> get() {
+			return Collections.unmodifiableList(this.host_list);
+		}
 
-		Collections.sort(list, new Comparator<Host>() {
-			@Override
-			public int compare(Host o1, Host o2) {
-				return Integer.valueOf(o1.getNumberOfFreePes()).compareTo(
-						o2.getNumberOfFreePes());
+		public Host getWithMinimumNumberOfPesEquals(int numberOfPes) {
+			List<Host> hosts = this.orderedAscByAvailablePes().get();
+
+			for (int i = 0; i < hosts.size(); i++) {
+				if (hosts.get(i).getNumberOfFreePes() >= numberOfPes) {
+					return hosts.get(i);
+				}
 			}
-		});
-		return new Hosts(list);
+			return null;
+		}
+
+		public int size() {
+			return this.host_list.size();
+		}
+
+		public Hosts orderedAscByAvailablePes() {
+			List<Host> list = new ArrayList<Host>(this.host_list);
+
+			Collections.sort(list, new Comparator<Host>() {
+				@Override
+				public int compare(Host o1, Host o2) {
+					return Integer.valueOf(o1.getNumberOfFreePes()).compareTo(
+							o2.getNumberOfFreePes());
+				}
+			});
+			return new Hosts(list);
+		}
 	}
-}

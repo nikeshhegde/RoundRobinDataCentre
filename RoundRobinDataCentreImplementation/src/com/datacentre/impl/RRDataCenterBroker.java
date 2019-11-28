@@ -17,60 +17,54 @@ import org.cloudbus.cloudsim.core.SimEvent;
 
 public class RRDataCenterBroker extends DatacenterBroker 
 {
-	/**
+
+    /**
      * Creates an instance of this class associating to it a given name.
      * @param name The name to be associated to this broker. It might not be <code>null</code> or empty.
      * @throws Exception If the name contains spaces.
      */
-	public RRDataCenterBroker(String name) throws Exception 
-	{
-		super(name);
-		// TODO Auto-generated constructor stub
-	}
-	@Override
-	protected void processResourceCharacteristics(SimEvent ev) 
-	{
-		DatacenterCharacteristics characterstics = (DatacenterCharacteristics) ev.getData();
-		getDatacenterCharacteristicsList().put(characterstics.getId(),characterstics);
-		
-		if(getDatacenterCharacteristicsList().size() == getDatacenterIdsList().size())
-		{
-			distributeReqForNewVmsAcrossDatacentersUsingRR();
-		}
-	}
-	
-	private void distributeReqForNewVmsAcrossDatacentersUsingRR() {
-		// TODO Auto-generated method stub
-		
-	}
-	/**
+    public RRDataCenterBroker(String name) throws Exception 
+    {
+        super(name);
+    }
+
+    @Override
+    protected void processResourceCharacteristics(SimEvent ev) 
+    {        
+        DatacenterCharacteristics characteristics = (DatacenterCharacteristics) ev.getData();
+        getDatacenterCharacteristicsList().put(characteristics.getId(), characteristics);
+
+        if (getDatacenterCharacteristicsList().size() == getDatacenterIdsList().size()) 
+        {
+            distributeRequestsForNewVmsAcrossDatacentersUsingTheRoundRobinApproach();
+        }
+    }
+
+    /**
      * Distributes the VMs across the data centers using the round-robin approach. A VM is allocated to a data center only if there isn't  
      * a VM in the data center with the same id.     
-	 * @param numberOfAllocated 
      */
-	
-	protected void distributeReqForNewVmsAcrossDatacentersUsingRR1()
-	{
-		// TODO Auto-generated method stub
-		int numOfVmsAllocated = 0;
-		int i= 0;
-		
-		final List<Integer> availableDatacenters= getDatacenterIdsList();
-		
-		for (Vm vm : getVmList())
-		{
-			int datacenterID = availableDatacenters.get(i++ % availableDatacenters.size());
-			String datacenterName = CloudSim.getEntityName(datacenterID);
-			
-			if (!getVmsToDataCenterMap().containsKey(vm.getId()))
-			{
-				Log.printLine(CloudSim.clock() + ":" + getName() + ": Trying to Create VM #" + vm.getId() + "in" + datacenterName);
-				sendNow(datacenterID, CloudSimTags.VM_CREATE_ACK,vm);
-				numOfVmsAllocated++;
-			}
-		}
-		
-		setVmsRequested(numOfVmsAllocated);
-		setVmsAcks(0);
-	}
+    protected void distributeRequestsForNewVmsAcrossDatacentersUsingTheRoundRobinApproach() 
+    {
+        int numberOfVmsAllocated = 0;
+        int i = 0;
+        
+        final List<Integer> availableDatacenters = getDatacenterIdsList();
+        
+        for (Vm vm : getVmList()) 
+        {
+            int datacenterId = availableDatacenters.get(i++ % availableDatacenters.size());
+            String datacenterName = CloudSim.getEntityName(datacenterId);
+            
+            if (!getVmsToDatacentersMap().containsKey(vm.getId())) 
+            {
+                Log.printLine(CloudSim.clock() + ": " + getName() + ": Trying to Create VM #" + vm.getId() + " in " + datacenterName);
+                sendNow(datacenterId, CloudSimTags.VM_CREATE_ACK, vm);
+                numberOfVmsAllocated++;
+            }
+        }
+        
+        setVmsRequested(numberOfVmsAllocated);
+        setVmsAcks(0);
+    }
 }
