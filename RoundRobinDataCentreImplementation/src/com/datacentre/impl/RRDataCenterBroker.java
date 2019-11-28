@@ -73,15 +73,5 @@ public class RRDataCenterBroker extends DatacenterBroker
 		
 		setVmsRequested(numOfVmsAllocated);
 		setVmsAcks(0);
-		
-		
-		
 	}
-	private Map<Integer, DatacenterCharacteristics> getVmsToDataCenterMap() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
-
 }
