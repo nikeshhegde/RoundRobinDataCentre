@@ -1,6 +1,7 @@
 package com.datacentre.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.cloudbus.cloudsim.DatacenterBroker;
 import org.cloudbus.cloudsim.DatacenterCharacteristics;
@@ -39,12 +40,17 @@ public class RRDataCenterBroker extends DatacenterBroker
 		}
 	}
 	
+	private void distributeReqForNewVmsAcrossDatacentersUsingRR() {
+		// TODO Auto-generated method stub
+		
+	}
 	/**
      * Distributes the VMs across the data centers using the round-robin approach. A VM is allocated to a data center only if there isn't  
      * a VM in the data center with the same id.     
+	 * @param numberOfAllocated 
      */
 	
-	protected void distributeReqForNewVmsAcrossDatacentersUsingRR() 
+	protected void distributeReqForNewVmsAcrossDatacentersUsingRR1()
 	{
 		// TODO Auto-generated method stub
 		int numOfVmsAllocated = 0;
@@ -52,10 +58,28 @@ public class RRDataCenterBroker extends DatacenterBroker
 		
 		final List<Integer> availableDatacenters= getDatacenterIdsList();
 		
+		for (Vm vm : getVmList())
+		{
+			int datacenterID = availableDatacenters.get(i++ % availableDatacenters.size());
+			String datacenterName = CloudSim.getEntityName(datacenterID);
+			
+			if (!getVmsToDataCenterMap().containsKey(vm.getId()))
+			{
+				Log.printLine(CloudSim.clock() + ":" + getName() + ": Trying to Create VM #" + vm.getId() + "in" + datacenterName);
+				sendNow(datacenterID, CloudSimTags.VM_CREATE_ACK,vm);
+				numOfVmsAllocated++;
+			}
+		}
+		
+		setVmsRequested(numOfVmsAllocated);
+		setVmsAcks(0);
 		
 		
 		
-		
+	}
+	private Map<Integer, DatacenterCharacteristics> getVmsToDataCenterMap() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	
