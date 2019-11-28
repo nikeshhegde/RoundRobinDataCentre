@@ -62,7 +62,7 @@ public class RRDataCenterBroker extends DatacenterBroker
 			int datacenterID = availableDatacenters.get(i++ % availableDatacenters.size());
 			String datacenterName = CloudSim.getEntityName(datacenterID);
 			
-			if (!getVmsToDataCenterMap().containsKey(vm.getId()))
+			if (!getVmsToDatacentersMap().containsKey(vm.getId()))
 			{
 				Log.printLine(CloudSim.clock() + ":" + getName() + ": Trying to Create VM #" + vm.getId() + "in" + datacenterName);
 				sendNow(datacenterID, CloudSimTags.VM_CREATE_ACK,vm);
