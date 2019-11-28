@@ -1,5 +1,7 @@
 package com.datacentre.impl;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,15 +37,22 @@ public class DataCentre {
 	/** The vmList. */
 	private static List<Vm> vmList;
 
-	private static List<Vm> createVM(int userId, int vms, int idShift) {
+	private static List<Vm> createVM(List vmSpec, int userId, int vms, int idShift) {
 		//Creates a container to store VMs. This list is passed to the broker later
 		LinkedList<Vm> list = new LinkedList<Vm>();
 
 		//VM Parameters
-		long size = 10000; //image size (MB)
-		int ram = 512; //vm memory (MB)
-		int mips = 250;
-		long bw = 1000;
+		//long size = 10000; //image size (MB)
+		//int ram = 512; //vm memory (MB)
+		//int mips = 250;
+		//long bw = 1000;
+		
+		List vmSpecs = vmSpec;
+		
+		long size = Long.parseLong(vmSpecs.get(0).toString());
+		int ram = Integer.parseInt(vmSpecs.get(1).toString());
+		int mips = Integer.parseInt(vmSpecs.get(2).toString());
+		long bw = Long.parseLong(vmSpecs.get(3).toString());
 		int pesNumber = 1; //number of cpus
 		String vmm = "Xen"; //VMM name
 
@@ -97,6 +106,36 @@ public class DataCentre {
 			boolean trace_flag = false;  // mean trace events
 			
 			//Take input from User for No of VMS
+			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+			
+			System.out.println("Enter no of VMs you wish to create: ");
+			String noOfVms = in.readLine();
+			
+			System.out.println("Enter the specifications of VM: ");
+			
+			System.out.println("Size of the Vm: ");
+			String vmSize = in.readLine();
+			
+			System.out.println("Size of the RAM: ");
+			String ramSize = in.readLine();
+			
+			System.out.println("Instructions execution of VM: ");
+			String mips = in.readLine();
+			
+			System.out.println("Bandwidth of VM: ");
+			String bw = in.readLine();
+			
+			List vmSpec = new ArrayList<String>();
+			
+			vmSpec.add(vmSize);
+			vmSpec.add(ramSize);
+			vmSpec.add(mips);
+			vmSpec.add(bw);
+			
+ 			
+			System.out.println("Enter no of Cloudlets / tasks: ");
+			
+			String noOfCloudLets = in.readLine();
 			
 			// Initialize the CloudSim library
 			CloudSim.init(num_user, calendar, trace_flag);
@@ -113,8 +152,8 @@ public class DataCentre {
 			int brokerId = broker.getId();
 
 			//Fourth step: Create VMs and Cloudlets and send them to broker
-			vmList = createVM(brokerId, 4, 0); //creating 5 vms
-			cloudletList = createCloudlet(brokerId, 5, 0); // creating 10 cloudlets
+			vmList = createVM(vmSpec,brokerId, Integer.parseInt(noOfVms), 0); //creating 5 vms
+			cloudletList = createCloudlet(brokerId, Integer.parseInt(noOfCloudLets), 0); // creating 10 cloudlets
 
 			broker.submitVmList(vmList);
 			broker.submitCloudletList(cloudletList);
@@ -332,15 +371,22 @@ public class DataCentre {
 
 		DecimalFormat dft = new DecimalFormat("###.##");
 		for (int i = 0; i < size; i++) {
-			cloudlet = list.get(i);
-			Log.print(indent + cloudlet.getCloudletId() + indent + indent);
-
-			if (cloudlet.getCloudletStatus() == Cloudlet.SUCCESS){
-				Log.print("SUCCESS");
-
-				Log.printLine( indent + indent + cloudlet.getResourceId() + indent + indent + indent + cloudlet.getVmId() +
-						indent + indent + indent + dft.format(cloudlet.getActualCPUTime()) +
-						indent + indent + dft.format(cloudlet.getExecStartTime())+ indent + indent + indent + dft.format(cloudlet.getFinishTime()));
+			try {
+				Thread t1 = new Thread();
+				t1.sleep(3000);
+				cloudlet = list.get(i);
+				Log.print(indent + cloudlet.getCloudletId() + indent + indent);
+				
+				if (cloudlet.getCloudletStatus() == Cloudlet.SUCCESS){
+					Log.print("SUCCESS");
+	
+					Log.printLine( indent + indent + cloudlet.getResourceId() + indent + indent + indent + cloudlet.getVmId() +
+							indent + indent + indent + dft.format(cloudlet.getActualCPUTime()) +
+							indent + indent + dft.format(cloudlet.getExecStartTime())+ indent + indent + indent + dft.format(cloudlet.getFinishTime()));
+				}
+			}catch (Exception e) {
+				// TODO: handle exception
+				Log.printLine("Exception occured in printCloudletList "+ e.toString());
 			}
 		}
 	}
