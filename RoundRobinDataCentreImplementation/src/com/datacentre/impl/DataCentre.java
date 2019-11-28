@@ -95,7 +95,9 @@ public class DataCentre {
 			int num_user = 2;   // number of grid users
 			Calendar calendar = Calendar.getInstance();
 			boolean trace_flag = false;  // mean trace events
-
+			
+			//Take input from User for No of VMS
+			
 			// Initialize the CloudSim library
 			CloudSim.init(num_user, calendar, trace_flag);
 
