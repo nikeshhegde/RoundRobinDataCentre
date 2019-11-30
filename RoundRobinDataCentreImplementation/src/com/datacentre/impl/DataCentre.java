@@ -130,11 +130,7 @@ public class DataCentre {
 			
 			System.out.println("Bandwidth of VM: ");
 			String bw = in.readLine();
-			
-			if(Integer.parseInt(bw.toString()) <= 0) {
-				System.out.println("Bandwidth Value cannot be zero ");
-				System.exit(0);
-			}
+		
 			
 			List vmSpec = new ArrayList<String>();
 			
@@ -147,6 +143,12 @@ public class DataCentre {
 			System.out.println("Enter no of Cloudlets / tasks: ");
 			
 			String noOfCloudLets = in.readLine();
+			
+			if(Integer.parseInt(noOfCloudLets.toString()) <= 0) {
+				System.out.println("Tasks Value cannot be zero ");
+				System.exit(0);
+			}	
+			
 			
 			// Initialize the CloudSim library
 			CloudSim.init(num_user, calendar, trace_flag);
