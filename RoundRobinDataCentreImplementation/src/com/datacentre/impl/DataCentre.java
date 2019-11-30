@@ -123,13 +123,18 @@ public class DataCentre {
 			String mips = in.readLine();
 			
 			if(Integer.parseInt(mips.toString()) <= 0) {
-				System.out.println("Value cannot be zero ");
+				System.out.println("Instructions Value cannot be zero ");
 				System.exit(0);
 			}
 			
 			
 			System.out.println("Bandwidth of VM: ");
 			String bw = in.readLine();
+			
+			if(Integer.parseInt(bw.toString()) <= 0) {
+				System.out.println("Bandwidth Value cannot be zero ");
+				System.exit(0);
+			}
 			
 			List vmSpec = new ArrayList<String>();
 			
