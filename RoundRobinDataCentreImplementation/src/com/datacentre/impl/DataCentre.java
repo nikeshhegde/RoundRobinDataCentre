@@ -122,6 +122,12 @@ public class DataCentre {
 			System.out.println("Instructions execution of VM: ");
 			String mips = in.readLine();
 			
+			if(Integer.parseInt(mips.toString()) <= 0) {
+				System.out.println("Value cannot be zero ");
+				System.exit(0);
+			}
+			
+			
 			System.out.println("Bandwidth of VM: ");
 			String bw = in.readLine();
 			
@@ -182,6 +188,8 @@ public class DataCentre {
 			Log.printLine("The simulation has been terminated due to an unexpected error");
 		}
 	}
+	
+	
 
 	private static Datacenter createDatacenter(String name){
 
